@@ -1,0 +1,254 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+   		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
+		p:location="/WEB-INF/jdbc.properties" />
+
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+		p:driverClassName="${jdbc.driverClassName}" p:url="${jdbc.url}"
+		p:username="${jdbc.username}" p:password="${jdbc.password}" />
+
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="packagesToScan" value="com.certainty.hr"></property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="hibernate.show_sql">true</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate4.HibernateTemplate">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+		<property name="checkWriteOperations" value="false"></property>
+	</bean>
+
+	<!-- DAO Bean Definitions -->
+	<bean id="clientDetailDAO" class="com.certainty.hr.dao.ClientDetailDAOImpl">
+		<property name="template" ref="hibernateTemplate"></property>
+	</bean>
+	<bean id="industryTypeDAO" class="com.certainty.hr.dao.IndustryTypeDAOImpl">
+		<property name="template" ref="hibernateTemplate"></property>
+	</bean>
+	<bean id="projectDetailDAO" class="com.certainty.hr.dao.ProjectDetailDAOImpl">
+		<property name="template" ref="hibernateTemplate"></property>
+	</bean>
+	<bean id="projectTypeDAO" class="com.certainty.hr.dao.ProjectTypeDAOImpl">
+		<property name="template" ref="hibernateTemplate"></property>
+	</bean>
+	<bean id="technologyDAO" class="com.certainty.hr.dao.TechnologyDAOImpl">
+		<property name="template" ref="hibernateTemplate"></property>
+	</bean>
+	<bean id="departmentDAO" class="com.certainty.hr.dao.DepartmentDAOImpl">
+		<property name="template" ref="hibernateTemplate"></property>
+	</bean>
+	<bean id="designationDAO" class="com.certainty.hr.dao.DesignationDAOImpl">
+		<property name="template" ref="hibernateTemplate"></property>
+	</bean>
+	<bean id="empDetailDAO" class="com.certainty.hr.dao.EmpDetailDAOImpl">
+		<property name="template" ref="hibernateTemplate"></property>
+	</bean>
+	<bean id="empPersonalDetailDAO" class="com.certainty.hr.dao.EmpPersonalDetailDAOImpl">
+		<property name="template" ref="hibernateTemplate"></property>
+	</bean>
+	<bean id="projectInvoicingDAO" class="com.certainty.hr.dao.ProjectInvoicingDAOImpl">
+		<property name="template" ref="hibernateTemplate"></property>
+	</bean>
+	<bean id="empContactDetailDAO" class="com.certainty.hr.dao.EmpContactDetailDAOImpl">
+		<property name="template" ref="hibernateTemplate"></property>
+	</bean>
+	<bean id="empEducationDetailDAO" class="com.certainty.hr.dao.EmpEducationDetailDAOImpl">
+		<property name="template" ref="hibernateTemplate"></property>
+	</bean>
+	<bean id="empSkillDetailDAO" class="com.certainty.hr.dao.EmpSkillDetailDAOImpl">
+		<property name="template" ref="hibernateTemplate"></property>
+	</bean>
+	<bean id="empPassportDetailDAO" class="com.certainty.hr.dao.EmpPassportDetailDAOImpl">
+		<property name="template" ref="hibernateTemplate"></property>
+	</bean>
+	<bean id="userRoleDAO" class="com.certainty.hr.dao.UserRoleDAOImpl">
+		<property name="template" ref="hibernateTemplate"></property>
+	</bean>
+	<bean id="userDetailDAO" class="com.certainty.hr.dao.UserDetailDAOImpl">
+		<property name="template" ref="hibernateTemplate"></property>
+	</bean>
+	<bean id="workExperienceDetailDAO" class="com.certainty.hr.dao.WorkExperienceDetailDAOImpl">
+		<property name="template" ref="hibernateTemplate"></property>
+	</bean>
+	<bean id="gradeDAO" class="com.certainty.hr.dao.GradeDAOImpl">
+		<property name="template" ref="hibernateTemplate"></property>
+	</bean>
+	<bean id="locationDAO" class="com.certainty.hr.dao.LocationDAOImpl">
+		<property name="template" ref="hibernateTemplate"></property>
+	</bean>
+	<bean id="employeeStatusDAO" class="com.certainty.hr.dao.EmployeeStatusDAOImpl">
+		<property name="template" ref="hibernateTemplate"></property>
+	</bean>
+	<bean id="educationCourseDAO" class="com.certainty.hr.dao.EducationCourseDAOImpl">
+		<property name="template" ref="hibernateTemplate"></property>
+	</bean>
+	<bean id="projectRoleDAO" class="com.certainty.hr.dao.ProjectRoleDAOImpl">
+		<property name="template" ref="hibernateTemplate"></property>
+	</bean>
+	<bean id="projectResourceDAO" class="com.certainty.hr.dao.ProjectResourceDAOImpl">
+		<property name="template" ref="hibernateTemplate"></property>
+	</bean>
+	<bean id="empProjectDetailDAO" class="com.certainty.hr.dao.EmpProjectDetailDAOImpl">
+		<property name="template" ref="hibernateTemplate"></property>
+	</bean>
+	<bean id="billingStatusDAO" class="com.certainty.hr.dao.BillingStatusDAOImpl">
+		<property name="template" ref="hibernateTemplate"></property>
+	</bean>
+
+
+	<!-- Service Bean Definitions -->
+	<bean id="clientDetailService" class="com.certainty.hr.service.ClientDetailServiceImpl">
+		<property name="clientDetailDAO" ref="clientDetailDAO"></property>
+	</bean>
+	<bean id="industryTypeService" class="com.certainty.hr.service.IndustryTypeServiceImpl">
+		<property name="industryTypeDAO" ref="industryTypeDAO"></property>
+	</bean>
+	<bean id="projectDetailService" class="com.certainty.hr.service.ProjectDetailServiceImpl">
+		<property name="projectDetailDAO" ref="projectDetailDAO"></property>
+	</bean>
+	<bean id="projectTypeService" class="com.certainty.hr.service.ProjectTypeServiceImpl">
+		<property name="projectTypeDAO" ref="projectTypeDAO"></property>
+	</bean>
+	<bean id="technologyService" class="com.certainty.hr.service.TechnologyServiceImpl">
+		<property name="technologyDAO" ref="technologyDAO"></property>
+	</bean>
+	<bean id="departmentService" class="com.certainty.hr.service.DepartmentServiceImpl">
+		<property name="departmentDAO" ref="departmentDAO"></property>
+	</bean>
+	<bean id="designationService" class="com.certainty.hr.service.DesignationServiceImpl">
+		<property name="designationDAO" ref="designationDAO"></property>
+	</bean>
+	<bean id="empDetailService" class="com.certainty.hr.service.EmpDetailServiceImpl">
+		<property name="empDetailDAO" ref="empDetailDAO"></property>
+	</bean>
+	<bean id="empPersonalDetailService" class="com.certainty.hr.service.EmpPersonalDetailServiceImpl">
+		<property name="empPersonalDetailDAO" ref="empPersonalDetailDAO"></property>
+	</bean>
+	<bean id="projectInvoicingService" class="com.certainty.hr.service.ProjectInvoicingServiceImpl">
+		<property name="projectInvoicingDAO" ref="projectInvoicingDAO"></property>
+	</bean>
+	<bean id="empContactDetailService" class="com.certainty.hr.service.EmpContactDetailServiceImpl">
+		<property name="empContactDetailDAO" ref="empContactDetailDAO"></property>
+	</bean>
+	<bean id="empPassportDetailService" class="com.certainty.hr.service.EmpPassportDetailServiceImpl">
+		<property name="empPassportDetailDAO" ref="empPassportDetailDAO"></property>
+	</bean>
+	<bean id="empSkillDetailService" class="com.certainty.hr.service.EmpSkillDetailServiceImpl">
+		<property name="empSkillDetailDAO" ref="empSkillDetailDAO"></property>
+	</bean>
+	<bean id="empEducationDetailService" class="com.certainty.hr.service.EmpEducationDetailServiceImpl">
+		<property name="empEducationDetailDAO" ref="empEducationDetailDAO"></property>
+	</bean>
+	<bean id="userRoleService" class="com.certainty.hr.service.UserRoleServiceImpl">
+		<property name="userRoleDAO" ref="userRoleDAO"></property>
+	</bean>
+	<bean id="userDetailService" class="com.certainty.hr.service.UserDetailServiceImpl">
+		<property name="userDetailDAO" ref="userDetailDAO"></property>
+	</bean>
+	<bean id="workExperienceDetailService"
+		class="com.certainty.hr.service.WorkExperienceDetailServiceImpl">
+		<property name="workExperienceDetailDAO" ref="workExperienceDetailDAO"></property>
+	</bean>
+	<bean id="gradeService" class="com.certainty.hr.service.GradeServiceImpl">
+		<property name="gradeDAO" ref="gradeDAO"></property>
+	</bean>
+	<bean id="locationService" class="com.certainty.hr.service.LocationServiceImpl">
+		<property name="locationDAO" ref="locationDAO"></property>
+	</bean>
+	<bean id="employeeStatusService" class="com.certainty.hr.service.EmployeeStatusServiceImpl">
+		<property name="employeeStatusDAO" ref="employeeStatusDAO"></property>
+	</bean>
+	<bean id="educationCourseService" class="com.certainty.hr.service.EducationCourseServiceImpl">
+		<property name="educationCourseDAO" ref="educationCourseDAO"></property>
+	</bean>
+	<bean id="projectRoleService" class="com.certainty.hr.service.ProjectRoleServiceImpl">
+		<property name="projectRoleDAO" ref="projectRoleDAO"></property>
+	</bean>
+	<bean id="projectResourceService" class="com.certainty.hr.service.ProjectResourceServiceImpl">
+		<property name="projectResourceDAO" ref="projectResourceDAO"></property>
+	</bean>
+	<bean id="empProjectDetailService" class="com.certainty.hr.service.EmpProjectDetailServiceImpl">
+		<property name="empProjectDetailDAO" ref="empProjectDetailDAO"></property>
+	</bean>
+	<bean id="billingStatusService" class="com.certainty.hr.service.BillingStatusServiceImpl">
+		<property name="billingStatusDAO" ref="billingStatusDAO"></property>
+	</bean>
+	<bean id="appUserDetailService" class="com.certainty.hr.service.AppUserDetailsServiceImpl">
+		<property name="userDetailDAO" ref="userDetailDAO"></property>
+	</bean>
+
+
+	<!-- START:Convert POJO to JSON & vice versa -->
+	<bean id="jsonMessageConverter"
+		class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" />
+	<bean
+		class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+		<property name="messageConverters">
+			<list>
+				<ref bean="jsonMessageConverter" />
+			</list>
+		</property>
+	</bean>
+	<!-- ENDS:Convert POJO to JSON & vice versa -->
+
+	<security:http auto-config="true">
+		<security:intercept-url pattern="/" access="permitAll" />
+		<security:intercept-url pattern="/resources/**"
+			access="permitAll" />
+		<security:intercept-url pattern="/WEB-INF/**"
+			access="permitAll" />
+		<security:intercept-url pattern="/login"
+			access="permitAll" />
+		<security:intercept-url pattern="/logout"
+			access="permitAll" />
+		<security:intercept-url pattern="/**"
+			access="hasRole('ROLE_ADMIN')" />
+
+		<security:form-login login-page="/login"
+			default-target-url="/" authentication-failure-url="/login?error"
+			login-processing-url="/j_spring_security_check" username-parameter="username"
+			password-parameter="password" />
+		<security:logout logout-success-url="/" />
+		<!-- Disabling csrf protection -->
+		<security:csrf disabled="true" />
+	</security:http>
+
+	<security:authentication-manager>
+		<security:authentication-provider
+			user-service-ref="appUserDetailService">
+		</security:authentication-provider>
+	</security:authentication-manager>
+
+	<tx:annotation-driven />
+	<context:component-scan base-package="com.certainty.hr" />
+	<mvc:annotation-driven />
+	<mvc:resources mapping="/resources/**" location="/resources/" />
+</beans>
